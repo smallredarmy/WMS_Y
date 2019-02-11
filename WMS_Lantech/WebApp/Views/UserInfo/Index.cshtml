@@ -1,0 +1,29 @@
+﻿@model List<Model.UserInfo>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        @Model.Count()
+        <table border="1">
+            <tr><td>id</td><td>用户名</td><td>密码</td><td>提交时间</td></tr>
+            @for (int i = 0; i < Model.Count; i++) {
+                <tr>
+                    <td>@Model[i].Id</td>
+                    <td>@Model[i].UName</td>
+                    <td>@Model[i].UPwd</td>
+                    <td>@Model[i].SubTime</td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
