@@ -20,10 +20,20 @@
     <script src="~/Scripts/ScriptsByYao.js"></script>
     <script type="text/javascript">
         $(function () {
+            $("#addDiv").css("display", "none");
+            $("#editDiv").css("display", "none");
             loadData();
+            //搜索
+            $("#btnSearch").click(function () {
+                var pars = {
+                    name: $("#txtUName").val(),
+                    remark: $("#txtRemark").val()
+                };
+                loadData(pars);
+            });
         });
 
-        function loadData() {
+        function loadData(pars) {
             $('#tt').datagrid({
                 url: '/UserInfo/GetUserInfo',
                 title: '用户数据表格',
@@ -38,7 +48,7 @@
                 pageSize: 2,//页大小，一页多少条数据
                 pageNumber: 1,//当前页，默认的
                 pageList: [5, 10, 15],
-                queryParams: {},//往后台传递参数
+                queryParams: pars,//往后台传递参数
                 columns: [[//c.UserName, c.UserPass, c.Email, c.RegTime
                     { field: 'ck', checkbox: true, align: 'left', width: 50 },//复选框
                     { field: 'Id', title: '编号', width: 80 },
@@ -59,7 +69,23 @@
                     handler: function () {
                         deleteInfo();
                     }
-                }],
+                }, {
+                    id: 'btnAdd',
+                    text: '添加',
+                    iconCls: 'icon-add',
+                    handler: function () {
+                        addInfo();
+                    }
+                    }, {
+                        id: 'btnEdit',
+                        text: '编辑',
+                        iconCls: 'icon-edit',
+                        handler: function () {
+                            editInfo();
+                        }
+                    }
+
+                ],
             });
         }
 
@@ -81,7 +107,9 @@
                     strId = strId.substring(0, strId.length - 1);
                     log("经过处理后的Id字符串：", strId);
                     $.post("/UserInfo/DeleteUserInfo", { "strId": strId }, function (data) {
-                        if (data=="ok") {
+                        if (data == "ok") {
+                            $("#tt").datagrid("clearSelections");
+                            $("#tt").datagrid("reload");
                             $.messager.alert("提醒", "删除成功!", "info");
                             loadData();
                         } else {
@@ -91,11 +119,140 @@
                 }
             });
         }
+
+        //添加用户数据
+        function addInfo() {
+            $("#addDiv").css("display", "block");
+            $('#addDiv').dialog({
+                title: "添加用户信息",
+                width: 300,
+                height: 300,
+                collapsible: true,
+                resizable: true,
+                modal: true,
+                buttons: [{
+                    text: '确定',
+                    iconCls: 'icon-ok',
+                    handler: function () {
+                        $("#addForm").submit();
+                    }
+                }, {
+                    text: '取消',
+                    handler: function () {
+                        $('#addDiv').dialog('close');
+                    }
+                }]
+            });
+        }
+
+        //添加完成以后调用
+        function afterAdd(data) {
+            if (data == "ok") {
+                $.messager.alert("提醒", "添加成功!", "info");
+                $("#addForm input").val("");
+                $("#addDiv").dialog("close");
+                $("#tt").datagrid("reload");
+            } else {
+                $.messager.alert("提醒", "添加失败!", "error");
+            }
+        }
+
+        //编辑用户数据
+        function editInfo() {
+            var rows = $("#tt").datagrid("getSelections");
+            if (rows.length != 1) {
+                //alert("请选择要修改的商品！");
+                $.messager.alert("提醒", "请选择要修改的1条记录!", "error");
+                return;
+            }
+            $.post("/UserInfo/ShowEditInfo", { "Id": rows[0].Id }, function (data) {
+                if (data.msg == "ok") {
+                    $("#txtUName").val(data.serverData.UName);   
+                    $("#txtUPwd").val(data.serverData.UPwd);   
+                    $("#txtRemark").val(data.serverData.Remark);   
+                    $("#txtSort").val(data.serverData.Sort); 
+                    $("#txtSubTime").val(ChangeDateFormat(data.serverData.SubTime)); 
+                    $("#txtDelFlag").val(data.serverData.DelFlag); 
+                    $("#txtId").val(data.serverData.Id); 
+                    $("#editDiv").css("display", "block");
+                    $('#editDiv').dialog({
+                        title: "修改用户信息",
+                        width: 300,
+                        height: 300,
+                        collapsible: true,
+                        resizable: true,
+                        modal: true,
+                        buttons: [{
+                            text: '确定',
+                            iconCls: 'icon-ok',
+                            handler: function () {
+                                $("#editForm").submit();
+                            }
+                        }, {
+                            text: '取消',
+                            handler: function () {
+                                $('#editDiv').dialog('close');
+                            }
+                        }]
+                    });
+                } else {
+                    $.messager.alert("提醒", "展示数据错误!", "error");
+                }
+            });          
+
+        }
+
+        //修改后调用此方法
+        function afterEdit(data) {
+            if (data == "ok") {
+                $("#editDiv").dialog("close");
+                $("#tt").datagrid("clearSelections");
+                $("#tt").datagrid("reload");
+            } else {
+                $.messager.alert("提醒", "修改数据错误!", "error");
+            }
+        }
+
+        //将序列化成json格式后的日期（毫秒数）转换成日期格式
+        function ChangeDateFormat(cellval) {
+            var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+            var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+            return date.getFullYear() + "-" + month + "-" + currentDate;
+        }
     </script>
 </head>
 <body>
     <div>
+        用户名：<input type="text" id="txtUName"/>&nbsp;&nbsp;备注<input type="text" id="txtRemark"/><input type="button"  value="搜索" id="btnSearch"/>
         <table id="tt"></table>
+    </div>
+    <!--添加数据-->
+    <div id="addDiv">
+        @using (Ajax.BeginForm("AddUserInfo", "UserInfo", new { }, new AjaxOptions() { HttpMethod = "post", OnSuccess = "afterAdd" }, new { id = "addForm" })) {
+            <table>
+                <tr><td>用户名</td><td><input type="text" name="UName" /></td></tr>
+                <tr><td>密码</td><td><input type="text" name="UPwd" /></td></tr>
+                <tr><td>备注</td><td><input type="text" name="Remark" /></td></tr>
+                <tr><td>排序</td><td><input type="text" name="Sort" /></td></tr>
+            </table>
+        }
+    </div>
+
+    <!--修改数据-->
+    <div id="editDiv">
+        @using (Ajax.BeginForm("EditUserInfo", "UserInfo", new { }, new AjaxOptions() { HttpMethod = "post", OnSuccess = "afterEdit" }, new { id = "editForm" })) {
+        //<input type="hidden" name="SubTime" id="txtSubTime" />
+        <input type="hidden" name="DelFlag" id="txtDelFlag" />
+        <input type="hidden" name="Id" id="txtId" />
+            <table>
+                <tr><td>用户名</td><td><input type="text" name="UName" id="txtUName"/></td></tr>
+                <tr><td>密码</td><td><input type="text" name="UPwd" id="txtUPwd"/></td></tr>
+                <tr><td>备注</td><td><input type="text" name="Remark" id="txtRemark"/></td></tr>
+                <tr><td>排序</td><td><input type="text" name="Sort" id="txtSort"/></td></tr>
+                <tr><td>注册时间</td><td><input type="text" name="SubTime" id="txtSubTime"/></td></tr>
+            </table>
+        }
     </div>
 </body>
 </html>
