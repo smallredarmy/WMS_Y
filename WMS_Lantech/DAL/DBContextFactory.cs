@@ -10,11 +10,10 @@ using System.Threading.Tasks;
 namespace DAL {
     public class DBContextFactory {
         public static DbContext CreateDBContext() {
-            DbContext db = (DbContext)CallContext.GetData("db");
+            DbContext db = (DbContext)CallContext.GetData("dbContext");
             if (db == null) {
                 db = new OAEntities();
-            } else {
-                CallContext.SetData("db", db);
+                CallContext.SetData("dbContext", db);
             }
             return db;
         }

@@ -6,11 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace IBLL {
-    public interface IBaseService<T> where T : class, new() {
+    public interface IBaseService<T> where T: class, new() {
         IDBSession CurrentDBSession { get; }
-
         IBaseDal<T> CurrentDal { get; set; }
-
         bool AddEntity(T entity);
         bool DeleteEntity(T entity);
         bool EditEntity(T entity);

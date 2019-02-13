@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6EF5BF27-B799-4D52-B8CB-B1086AD96B7B}</ProjectGuid>
+    <ProjectGuid>{904EAAB6-48CE-45D8-8899-4C92B7694977}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DAL</RootNamespace>
@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="BaseDal.cs" />
     <Compile Include="DBContextFactory.cs" />
-    <Compile Include="Enum\DelFlagEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInfoDal.cs" />
   </ItemGroup>
@@ -60,11 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IDAL\IDAL.csproj">
-      <Project>{B06CB4B6-0A19-4DFA-9726-F65BE67EDDD7}</Project>
+      <Project>{4737939E-BDED-4773-B1AF-4F9C3B9E31BD}</Project>
       <Name>IDAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{CD692145-E6DF-4E39-BB58-AB810AA5DAA3}</Project>
+      <Project>{E58B75E7-6FC7-4A36-818F-5E304FA8128A}</Project>
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D85DDD74-2D52-41C2-850D-D3D1A4BE292D}</ProjectGuid>
+    <ProjectGuid>{9068B86F-A874-4DDB-953F-46AFFEE24103}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DALFactory</RootNamespace>
@@ -60,11 +60,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{6EF5BF27-B799-4D52-B8CB-B1086AD96B7B}</Project>
+      <Project>{904EAAB6-48CE-45D8-8899-4C92B7694977}</Project>
       <Name>DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\IDAL\IDAL.csproj">
-      <Project>{B06CB4B6-0A19-4DFA-9726-F65BE67EDDD7}</Project>
+      <Project>{4737939E-BDED-4773-B1AF-4F9C3B9E31BD}</Project>
       <Name>IDAL</Name>
     </ProjectReference>
   </ItemGroup>

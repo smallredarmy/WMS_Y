@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace IBLL {
-    public interface IUserInfoService:IBaseService<UserInfo> {
+    public interface IUserInfoService: IBaseService<UserInfo> {
+        bool DeleteEntities(List<int> list); 
     }
 }

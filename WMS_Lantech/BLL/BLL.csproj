@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{50165F9F-ABDD-4484-99C5-C69070942F66}</ProjectGuid>
+    <ProjectGuid>{82DC26D5-12BB-472C-969D-15D9FC3AEC09}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BLL</RootNamespace>
@@ -47,19 +47,19 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DALFactory\DALFactory.csproj">
-      <Project>{D85DDD74-2D52-41C2-850D-D3D1A4BE292D}</Project>
+      <Project>{9068B86F-A874-4DDB-953F-46AFFEE24103}</Project>
       <Name>DALFactory</Name>
     </ProjectReference>
     <ProjectReference Include="..\IBLL\IBLL.csproj">
-      <Project>{9FD83564-CB3C-46E6-9DCE-AFD5C2DC16E6}</Project>
+      <Project>{3AC9FF4D-1878-4C41-B013-59A8AF5338D0}</Project>
       <Name>IBLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\IDAL\IDAL.csproj">
-      <Project>{B06CB4B6-0A19-4DFA-9726-F65BE67EDDD7}</Project>
+      <Project>{4737939E-BDED-4773-B1AF-4F9C3B9E31BD}</Project>
       <Name>IDAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{CD692145-E6DF-4E39-BB58-AB810AA5DAA3}</Project>
+      <Project>{E58B75E7-6FC7-4A36-818F-5E304FA8128A}</Project>
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>

@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 
 namespace IDAL {
     public interface IUserInfoDal:IBaseDal<UserInfo> {
+
     }
 }

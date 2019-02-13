@@ -31,7 +31,7 @@
                 height: 400,
                 fitColumns: true,//列自适应
                 nowrap: false,//设置为true，当数据长度超出列宽时将会自动截取。
-                idField: 'ID',//主键列的列明
+                idField: 'Id',//主键列的列明,注意要和列属性名称一致
                 loadMsg: '正在加载用户的信息...',
                 pagination: true,//是否有分页
                 singleSelect: false,//是否单行选择
@@ -57,14 +57,38 @@
                     text: '删除',
                     iconCls: 'icon-remove',
                     handler: function () {
-                        var rows = $('#tt').datagrid('getSelections');
-                        if (!rows || rows.length == 0) {
-                            //alert("请选择要修改的商品！");
-                            $.messager.alert("提醒", "请选择要删除的记录!", "error");
-                            return;
-                        }
+                        deleteInfo();
                     }
                 }],
+            });
+        }
+
+        //删除用户数据
+        function deleteInfo() {
+            var rows = $('#tt').datagrid('getSelections');
+            log(rows);
+            if (!rows || rows.length == 0) {
+                //alert("请选择要修改的商品！");
+                $.messager.alert("提醒", "请选择要删除的记录!", "error");
+                return;
+            }
+            $.messager.confirm("提示", "确定要删除记录吗？", function (r) {
+                if (r) {
+                    var strId = "";
+                    for (var i = 0; i < rows.length; i++) {
+                        strId = strId + rows[i].Id + ",";
+                    }
+                    strId = strId.substring(0, strId.length - 1);
+                    log("经过处理后的Id字符串：", strId);
+                    $.post("/UserInfo/DeleteUserInfo", { "strId": strId }, function (data) {
+                        if (data=="ok") {
+                            $.messager.alert("提醒", "删除成功!", "info");
+                            loadData();
+                        } else {
+                            $.messager.alert("提醒", "删除失败!", "error");
+                        }
+                    });
+                }
             });
         }
     </script>

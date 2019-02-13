@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DALFactory {
-    public class DBSession :IDBSession{
+    public class DBSession : IDBSession {
         public DbContext DBContext {
             get {
                 return DBContextFactory.CreateDBContext();

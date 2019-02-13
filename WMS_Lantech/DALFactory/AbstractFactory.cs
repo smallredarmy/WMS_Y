@@ -9,17 +9,18 @@ using System.Threading.Tasks;
 
 namespace DALFactory {
     public class AbstractFactory {
-        public static readonly string AssemblyPath = ConfigurationManager.AppSettings["AssemblyPath"];
-        public static readonly string NameSpace = ConfigurationManager.AppSettings["NameSpace"];
+        private static readonly string AssemblyPath = ConfigurationManager.AppSettings["AssemblyPath"];
+        private static readonly string NameSpace = ConfigurationManager.AppSettings["NameSpace"];
 
         public static IUserInfoDal CreateUserInfoDal() {
-            string fullClassString = NameSpace + ".UserInfoDal";
-            return CreateInstance(fullClassString) as IUserInfoDal;
+            string fullClassName = NameSpace + ".UserInfoDal";
+            return CreateInstance(fullClassName) as IUserInfoDal;
         }
 
-        private static object CreateInstance(string fullClassString) {
+        private static object CreateInstance(string className) {
             var assembly = Assembly.Load(AssemblyPath);
-            return assembly.CreateInstance(fullClassString);
+            return assembly.CreateInstance(className);
         }
+
     }
 }
